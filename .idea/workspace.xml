@@ -5,11 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4f93f63c-8d96-4841-9e37-a09498a25a5e" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/get_games.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/other_way_to_read_player_data.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GetPlayerInfo.py" beforeDir="false" afterPath="$PROJECT_DIR$/GetPlayerInfo.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/IndivualOffensiveScoring.py" beforeDir="false" afterPath="$PROJECT_DIR$/IndivualOffensiveScoring.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
