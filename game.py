@@ -1,8 +1,9 @@
 import requests
 from bs4 import BeautifulSoup
 import pandas as pd
+import lxml
 
-url = 'https://athletics.amherst.edu/sports/football/stats/2022/middlebury-college/boxscore/12292'
+url = 'https://athletics.amherst.edu/sports/football/stats/2022/wesleyan-university/boxscore/12298'
 response = requests.get(url)
 soup = BeautifulSoup(response.text, 'html.parser')
 
@@ -11,6 +12,8 @@ passing = str(soup.find('section', {'id':'individual-passing'}))
 receiving = str(soup.find('section', {'id':'individual-receiving'}))
 defense_away = str(soup.find('section', {'id':'defense-away'}))
 defense_home = str(soup.find('section', {'id':'defense-home'}))
+field_goals = str(soup.find('section', {'id':'individual-fieldgoals'}))
+PATs = str(soup.find('section', {'id':'individual-pat-stats'}))
 
 def rushing_value(section):
     tables = pd.read_html(str(section))
@@ -52,4 +55,54 @@ def defense_value(home, away):
 
     return defense_stats
 
-print(defense_value(defense_home, defense_away))
+def field_goal_value(section):
+    field_goals = pd.concat(pd.read_html(section))
+
+    field_goal_stats = pd.DataFrame(index=field_goals['Player'].unique(), columns=['Value'])
+    field_goal_stats['Value'] = 0
+
+
+    for index, fieldgoal in field_goals.iterrows():
+        if fieldgoal['Result'] == 'GOOD':
+            if fieldgoal['Yds.'] >= 50:
+                field_goal_stats.loc[fieldgoal['Player'], 'Value'] += 5
+            elif 40 < fieldgoal['Yds.'] < 50:
+                field_goal_stats.loc[fieldgoal['Player'], 'Value'] += 4
+            else:
+                field_goal_stats.loc[fieldgoal['Player'], 'Value'] += 3
+        else:
+            if fieldgoal['Yds.'] < 40:
+                field_goal_stats.loc[fieldgoal['Player'], 'Value'] -= 2
+            elif 39 < fieldgoal['Yds.'] < 50:
+                field_goal_stats.loc[fieldgoal['Player'], 'Value'] -= 1
+    return field_goal_stats
+
+def PAT_value(section):
+    PAT_stats = pd.concat(pd.read_html(section))
+
+    PAT_stats.columns = PAT_stats.columns.map(lambda x: f'{x[0]} {x[1]}' if x[1] else x[0])
+    PAT_stats.set_index('Player Player', inplace=True)
+    PAT_stats.index.name = 'Player'
+    PAT_stats['Value'] = PAT_stats['Kicks Made'] + PAT_stats['Rushes Made'] * 2 + PAT_stats['Passes Made'] * 2 + PAT_stats['Kicks Made'] - PAT_stats['Kicks ATT']
+
+    return PAT_stats
+
+def get_roster(urls):
+    url = 'https://gobatesbobcats.com/sports/football/roster'
+
+    # Send a GET request to the URL and parse the HTML content using BeautifulSoup
+    response = requests.get(url)
+    soup = BeautifulSoup(response.content, 'html.parser')
+
+
+    print(pd.read_html(str(soup.find("div", class_="sidearm-roster-grid-template-1"))))
+
+
+
+urls = ["https://gobatesbobcats.com/sports/football/roster", "https://athletics.amherst.edu/sports/football/roster",
+            "https://athletics.bowdoin.edu/sports/football/roster", "https://colbyathletics.com/sports/football/roster",
+            "https://bantamsports.com/sports/football/roster", "https://athletics.wesleyan.edu/sports/football/roster",
+            "https://athletics.middlebury.edu/sports/football/roster",
+            "https://gotuftsjumbos.com/sports/football/roster"]
+
+print(field_goal_value(field_goals))
