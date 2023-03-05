@@ -1,5 +1,8 @@
 import requests
 from bs4 import BeautifulSoup
+import pandas as pd
+import ssl
+
 
 # Define the URL to scrape --> one for each nescac team
 urls = ["https://gobatesbobcats.com/sports/football/roster","https://athletics.amherst.edu/sports/football/roster",
@@ -14,7 +17,7 @@ Basic info includes team, number, position, height, weight, hometown, high schoo
 def scrapePlayerList():
     players = dict()
     for url in urls:
-        print(url)
+
         page = requests.get(url)
         soup = BeautifulSoup(page.content, 'html.parser')
 

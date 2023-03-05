@@ -5,11 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4f93f63c-8d96-4841-9e37-a09498a25a5e" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/GetPlayerInfo.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/IndivualOffensiveScoring.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/get_games.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/other_way_to_read_player_data.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/GetPlayerInfo.py" beforeDir="false" afterPath="$PROJECT_DIR$/GetPlayerInfo.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/IndivualOffensiveScoring.py" beforeDir="false" afterPath="$PROJECT_DIR$/IndivualOffensiveScoring.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -43,10 +43,11 @@
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
-  <component name="RunManager" selected="Python.GetPlayerInfo">
+  <component name="RunManager">
     <configuration name="GetPlayerInfo" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="NescacFantasyFootball" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -93,8 +94,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.GetPlayerInfo" />
         <item itemvalue="Python.game" />
+        <item itemvalue="Python.GetPlayerInfo" />
       </list>
     </recent_temporary>
   </component>
