@@ -1,0 +1,2 @@
+from GetPlayerInfo import scrapePlayerList
+
