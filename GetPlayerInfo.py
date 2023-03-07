@@ -13,8 +13,8 @@ urls = ["https://athletics.amherst.edu/sports/football/roster",
         "https://athletics.bowdoin.edu/sports/football/roster",
         "https://colbyathletics.com/sports/football/roster",
         "https://bantamsports.com/sports/football/roster", #trinty
-        #"https://athletics.wesleyan.edu/sports/football/roster",
-        #"https://athletics.hamilton.edu/sports/football/roster" # has a glitch wit the .text portion for getting team name
+        "https://athletics.wesleyan.edu/sports/football/roster",
+        "https://athletics.hamilton.edu/sports/football/roster", # has a glitch wit the .text portion for getting team name
         "https://athletics.middlebury.edu/sports/football/roster",
         "https://gotuftsjumbos.com/sports/football/roster",
         "https://ephsports.williams.edu/sports/football/roster"
@@ -30,7 +30,7 @@ def scrapePlayerList():
 
         page = requests.get(url)
         soup = BeautifulSoup(page.content, 'html.parser')
-
+        #print(soup.title.text.split()[-2])
         team = soup.title.text.split()[-2]
         #iterates throught a set comprised of each player for a given roster (in the card view)
         for player in soup.find_all("li", class_="sidearm-roster-player"):
@@ -87,7 +87,6 @@ def to_csv():
 
 
 path = r"/Users/wwarlick/development/personal/NescacFantasyFootball"
-
 
 to_csv().to_csv(path +'/NescacFootballPlayerInfo.csv')
 
