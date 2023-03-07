@@ -1,10 +1,13 @@
+"""
+Provides the stats of players for a given game, uses the game_url
+"""
 import requests
 from bs4 import BeautifulSoup
 import pandas as pd
 import lxml
 
-url = 'https://athletics.amherst.edu/sports/football/stats/2022/wesleyan-university/boxscore/12298'
-response = requests.get(url)
+game_url = 'https://athletics.amherst.edu/sports/football/stats/2022/wesleyan-university/boxscore/12298'
+response = requests.get(game_url)
 soup = BeautifulSoup(response.text, 'html.parser')
 
 rushing = str(soup.find('section', {'id':'individual-rushing'}))

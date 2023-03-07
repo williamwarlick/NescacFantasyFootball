@@ -5,10 +5,16 @@ import ssl
 
 
 # Define the URL to scrape --> one for each nescac team
-urls = ["https://gobatesbobcats.com/sports/football/roster","https://athletics.amherst.edu/sports/football/roster",
-        "https://athletics.bowdoin.edu/sports/football/roster","https://colbyathletics.com/sports/football/roster",
-        "https://bantamsports.com/sports/football/roster", "https://athletics.wesleyan.edu/sports/football/roster",
-        "https://athletics.middlebury.edu/sports/football/roster", "https://gotuftsjumbos.com/sports/football/roster"]
+urls = ["https://athletics.amherst.edu/sports/football/roster",
+        "https://gobatesbobcats.com/sports/football/roster",
+        "https://athletics.bowdoin.edu/sports/football/roster",
+        "https://colbyathletics.com/sports/football/roster",
+        "https://bantamsports.com/sports/football/roster", #trinty
+        "https://athletics.wesleyan.edu/sports/football/roster",
+        "https://athletics.hamilton.edu/sports/football/roster"
+        "https://athletics.middlebury.edu/sports/football/roster",
+        "https://gotuftsjumbos.com/sports/football/roster",
+        "https://ephsports.williams.edu/sports/football/roster"]
 
 """
 Returns a dictinary of players, keyed on player name, to a player basic info as a dictionary. 
@@ -25,7 +31,7 @@ def scrapePlayerList():
         #iterates throught a set comprised of each player for a given roster (in the card view)
         for player in soup.find_all("li", class_="sidearm-roster-player"):
 
-            name = "".join(player.find("div", class_="sidearm-roster-player-name").find('a').text)
+            name = " ".join(player.find("div", class_="sidearm-roster-player-name").get_text().split()[1:])
             number = player.find("div", class_="sidearm-roster-player-name").get_text().split()[0]
             hometown = ""
             if player.find("span", class_="sidearm-roster-player-hometown") is not None:
@@ -41,8 +47,13 @@ def scrapePlayerList():
             details = player.find("div", class_="sidearm-roster-player-position").get_text().split()
             if len(details) >= 3:
                 position = details[0]
-                height = details[1]
-                weight = details[2]
+                if team == "Bates":
+                    height = details[2]
+                    weight = details[3]
+
+                else:
+                    height = details[1]
+                    weight = details[2]
 
                 players.update({name: {'team': team, 'number': number,  'position': position, 'height': height,
                                          'weight': weight, 'hometown':  hometown, "highschool": highschool, "year": year}})
@@ -51,6 +62,19 @@ def scrapePlayerList():
 
 
 
+
+def to_csv():
+    pd.set_option('display.max_rows', None)
+    pd.set_option('display.max_columns', None)
+
+    url = "https://athletics.wesleyan.edu/sports/football/roster"
+    df = pd.read_html(url)[2]
+    mega_list =  pd.DataFrame(scrapePlayerList()).transpose()
+    #df_combined = pd.concat([mega_list, df], axis=0)
+    return mega_list
 #if __name__ == "main":
 
-print(scrapePlayerList())
+
+
+print(to_csv())
+
