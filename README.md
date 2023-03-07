@@ -14,6 +14,14 @@ Todo:
  - [x]  Tufts University
  - [x]  Wesleyan University
  - [x]  Williams College
+ 
+ 
+ - [ ] Add something that Tracks schedule and notes if a players upcoming week is a by week
+ - [ ] Wireframe for website
+ - [ ] User authentication 
+ - [ ] Payment/tip jar 
+ - [ ] Set up emails to be sent for password reset/ communications 
+ 
 
 
   
