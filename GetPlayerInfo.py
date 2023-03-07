@@ -13,7 +13,7 @@ urls = ["https://athletics.amherst.edu/sports/football/roster",
         "https://athletics.bowdoin.edu/sports/football/roster",
         "https://colbyathletics.com/sports/football/roster",
         "https://bantamsports.com/sports/football/roster", #trinty
-        "https://athletics.wesleyan.edu/sports/football/roster",
+        #"https://athletics.wesleyan.edu/sports/football/roster",
         "https://athletics.hamilton.edu/sports/football/roster", # has a glitch wit the .text portion for getting team name
         "https://athletics.middlebury.edu/sports/football/roster",
         "https://gotuftsjumbos.com/sports/football/roster",
@@ -54,10 +54,7 @@ def scrapePlayerList():
                 if team == "Bates":
                     height = details[2]
                     weight = details[3]
-                if team == "Wesleyan":
-                    position = details[2]
-                    height = details[3]
-                    weight = details[4]
+
                 else:
                     height = details[1]
                     weight = details[2]
@@ -82,11 +79,13 @@ def to_csv():
     mega_list =  pd.DataFrame(scrapePlayerList()).transpose()
     a = pd.concat([mega_list, get_wes()], axis=0)
     a['year'] = a['year'].replace(['Fy.', '1st', 'Fr.', 'So.', 'Jr.', 'Sr.'], ['2026','2026', '2026', '2025', '2024', '2023'])
-
+    a['height'] = a['height'].replace(['"'], [""])
+    print(a['height'])
     return a
 
-
+to_csv()
+#print(to_csv())
 path = r"/Users/wwarlick/development/personal/NescacFantasyFootball"
 
-to_csv().to_csv(path +'/NescacFootballPlayerInfo.csv')
+#to_csv().to_csv(path +'/NescacFootballPlayerInfo.csv')
 
