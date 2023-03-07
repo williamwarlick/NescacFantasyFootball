@@ -79,7 +79,7 @@ def to_csv():
     mega_list =  pd.DataFrame(scrapePlayerList()).transpose()
     a = pd.concat([mega_list, get_wes()], axis=0)
     a['year'] = a['year'].replace(['Fy.', '1st', 'Fr.', 'So.', 'Jr.', 'Sr.'], ['2026','2026', '2026', '2025', '2024', '2023'])
-    a['height'] = a['height'].replace(['"'], [""])
+    a['height'] = a['height'].apply(lambda x: '-'.join(x.strip('\"').split('\'')))
     print(a['height'])
     return a
 
