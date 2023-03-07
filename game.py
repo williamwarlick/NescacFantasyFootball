@@ -18,6 +18,8 @@ defense_home = str(soup.find('section', {'id':'defense-home'}))
 field_goals = str(soup.find('section', {'id':'individual-fieldgoals'}))
 PATs = str(soup.find('section', {'id':'individual-pat-stats'}))
 
+
+
 def rushing_value(section):
     tables = pd.read_html(str(section))
     rushing_stats = pd.concat([table[(table['Player'] != 'Totals') & (table['Player'] != 'Team')] for table in tables], axis=0)
@@ -89,6 +91,18 @@ def PAT_value(section):
     PAT_stats['Value'] = PAT_stats['Kicks Made'] + PAT_stats['Rushes Made'] * 2 + PAT_stats['Passes Made'] * 2 + PAT_stats['Kicks Made'] - PAT_stats['Kicks ATT']
 
     return PAT_stats
+
+def players_game_value():
+    all_categories_to_score = [rushing_value(rushing), passing_value(passing), receiving_value(receiving),
+                               defense_value(home=defense_home, away=defense_away), field_goal_value(field_goals),
+                               PAT_value(PATs)]
+    return pd.concat(all_categories_to_score).groupby(level=0).agg(Value=('Value', 'sum'))
+
+
+pd.set_option('display.max_rows', None)
+pd.set_option('display.max_columns', None)
+print(players_game_value())
+
 
 def get_roster(urls):
     url = 'https://gobatesbobcats.com/sports/football/roster'

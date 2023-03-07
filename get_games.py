@@ -25,13 +25,14 @@ soup = BeautifulSoup(response.content, 'html.parser')
 games_table = soup.find_all('table', class_="sidearm-table")[50]
 rows = games_table.find_all('td', class_="text-nowrap")
 
-#url of each games stats page
-urls = []
-for content in rows:
-    if content.find('a') is not None:
-        urls.append('https://nescac.com/' + content.find('a')['href'])
+def get_game_urls():
+    #url of each games stats page
+    urls = []
+    for content in rows:
+        if content.find('a') is not None:
+            urls.append('https://nescac.com/' + content.find('a')['href'])
 
-print(urls)
+    return urls
 
 
 
