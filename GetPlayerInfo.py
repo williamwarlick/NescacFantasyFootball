@@ -4,17 +4,21 @@ import pandas as pd
 import ssl
 
 
+pd.set_option('display.max_rows', None)
+pd.set_option('display.max_columns', None)
+
 # Define the URL to scrape --> one for each nescac team
 urls = ["https://athletics.amherst.edu/sports/football/roster",
         "https://gobatesbobcats.com/sports/football/roster",
         "https://athletics.bowdoin.edu/sports/football/roster",
         "https://colbyathletics.com/sports/football/roster",
         "https://bantamsports.com/sports/football/roster", #trinty
-        "https://athletics.wesleyan.edu/sports/football/roster",
-        "https://athletics.hamilton.edu/sports/football/roster"
+        #"https://athletics.wesleyan.edu/sports/football/roster",
+        #"https://athletics.hamilton.edu/sports/football/roster" # has a glitch wit the .text portion for getting team name
         "https://athletics.middlebury.edu/sports/football/roster",
         "https://gotuftsjumbos.com/sports/football/roster",
-        "https://ephsports.williams.edu/sports/football/roster"]
+        "https://ephsports.williams.edu/sports/football/roster"
+        ]
 
 """
 Returns a dictinary of players, keyed on player name, to a player basic info as a dictionary. 
@@ -50,7 +54,10 @@ def scrapePlayerList():
                 if team == "Bates":
                     height = details[2]
                     weight = details[3]
-
+                if team == "Wesleyan":
+                    position = details[2]
+                    height = details[3]
+                    weight = details[4]
                 else:
                     height = details[1]
                     weight = details[2]
@@ -60,21 +67,27 @@ def scrapePlayerList():
 
     return players
 
-
-
+def get_wes():
+    wesleyan_url = "https://athletics.wesleyan.edu/sports/football/roster"
+    df = pd.read_html(wesleyan_url)[2].set_index('Name')
+    df.insert(loc=0, column='team', value='Wesleyan')
+    renamed = df.rename(columns={"No.": 'number', "Pos.": 'position', "Ht.": 'height', "Wt.": 'weight'})
+    renamed[['hometown', 'highschool']] = renamed["Hometown / High School"].str.split('/', expand=True)
+    renamed.drop(["C", "Hometown / High School"], axis=1, inplace=True)
+    renamed.insert(loc=7, column='year', value=renamed.pop('Cl.'))
+    return renamed
 
 def to_csv():
-    pd.set_option('display.max_rows', None)
-    pd.set_option('display.max_columns', None)
-
     url = "https://athletics.wesleyan.edu/sports/football/roster"
-    df = pd.read_html(url)[2]
     mega_list =  pd.DataFrame(scrapePlayerList()).transpose()
-    #df_combined = pd.concat([mega_list, df], axis=0)
-    return mega_list
-#if __name__ == "main":
+    a = pd.concat([mega_list, get_wes()], axis=0)
+    a['year'] = a['year'].replace(['Fy.', '1st', 'Fr.', 'So.', 'Jr.', 'Sr.'], ['2026','2026', '2026', '2025', '2024', '2023'])
+
+    return a
 
 
+path = r"/Users/wwarlick/development/personal/NescacFantasyFootball"
 
-print(to_csv())
+
+to_csv().to_csv(path +'/NescacFootballPlayerInfo.csv')
 
